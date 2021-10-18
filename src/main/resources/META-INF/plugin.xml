@@ -1,18 +1,16 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.maartenba.dotnetwatch</id>
+    <id>com.jetbrains.rider.plugins.dotnetwatch</id>
     <name>DotNetWatch</name>
-    <vendor>maartenba</vendor>
+    <vendor>Coders Anonymous</vendor>
 
-    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.rider</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.maartenba.dotnetwatch.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.maartenba.dotnetwatch.services.MyProjectService"/>
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.maartenba.dotnetwatch.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <actions>
+        <action class="com.jetbrains.rider.plugins.dotnetwatch.actions.ExampleAction"
+                text="Coders Anonymous" />
+    </actions>
 </idea-plugin>
