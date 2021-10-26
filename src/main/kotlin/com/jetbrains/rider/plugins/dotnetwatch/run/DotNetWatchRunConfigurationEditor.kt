@@ -14,11 +14,11 @@ class DotNetWatchRunConfigurationEditor : SettingsEditor<DotNetWatchRunConfigura
         .panel
 
     override fun resetEditorFrom(runConfiguration: DotNetWatchRunConfiguration) {
-        scriptNameEditor.text = runConfiguration.getDotNetWatchOptions().scriptName ?: ""
+        scriptNameEditor.text = runConfiguration.watchOptions().scriptName ?: ""
     }
 
     override fun applyEditorTo(runConfiguration: DotNetWatchRunConfiguration) {
-        runConfiguration.getDotNetWatchOptions().scriptName = scriptNameEditor.text
+        runConfiguration.watchOptions().scriptName = scriptNameEditor.text
     }
 
 //This may be the future! 🔥
