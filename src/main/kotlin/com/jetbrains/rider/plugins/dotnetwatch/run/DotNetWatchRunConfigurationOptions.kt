@@ -6,7 +6,7 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
 
     private var myScriptName = string("").provideDelegate(this, "scriptName")
 
-    var scriptName: String?
+    var projectName: String?
         get() = myScriptName.getValue(this)
         set(value) = myScriptName.setValue(this, value)
 }

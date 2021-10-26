@@ -35,7 +35,7 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
     override fun getState(executor: Executor, executionEnvironment: ExecutionEnvironment): RunProfileState {
         return object : CommandLineState(executionEnvironment) {
             override fun startProcess(): ProcessHandler {
-                val commandLine = riderDotNetActiveRuntimeHost.dotNetCoreRuntime.value?.createCommandLine(listOf("watch", "--project", options.scriptName!!))
+                val commandLine = riderDotNetActiveRuntimeHost.dotNetCoreRuntime.value?.createCommandLine(listOf("watch", "--project", options.projectName!!))
                     ?: throw ExecutionException("Could not determine active .NET runtime.")
 
                 commandLine.workDirectory = project.solutionDirectory

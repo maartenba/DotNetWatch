@@ -8,6 +8,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <configurationType implementation="com.jetbrains.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationType"/>
+        <runConfigurationProducer implementation="com.jetbrains.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationProducer"/>
     </extensions>
 
     <actions>
