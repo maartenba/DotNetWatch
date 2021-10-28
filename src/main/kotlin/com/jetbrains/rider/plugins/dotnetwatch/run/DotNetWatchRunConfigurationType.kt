@@ -1,19 +1,19 @@
 package com.jetbrains.rider.plugins.dotnetwatch.run
 
 import com.intellij.execution.configurations.ConfigurationType
-import com.intellij.icons.AllIcons
+import icons.DotNetWatchIcons
 
 @Suppress("DialogTitleCapitalization")
 class DotNetWatchRunConfigurationType : ConfigurationType {
 
     companion object {
         // Do not change this once set
-        const val ID = "Plugin_DotNetWatch"
+        const val ID = "RunDotNetWatch"
     }
 
     override fun getId() = ID
 
-    override fun getIcon() = AllIcons.General.InspectionsEye
+    override fun getIcon() = DotNetWatchIcons.RunConfiguration
 
     override fun getDisplayName() = "dotnet-watch"
 
