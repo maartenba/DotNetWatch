@@ -4,9 +4,9 @@ import com.intellij.execution.configurations.RunConfigurationOptions
 
 class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
 
-    private var myScriptName = string("").provideDelegate(this, "scriptName")
+    private var projectNameOption = string("").provideDelegate(this, "projectName")
 
     var projectName: String?
-        get() = myScriptName.getValue(this)
-        set(value) = myScriptName.setValue(this, value)
+        get() = projectNameOption.getValue(this)
+        set(value) = projectNameOption.setValue(this, value)
 }
