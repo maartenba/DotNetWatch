@@ -1,3 +1,5 @@
+@file:Suppress("PackageDirectoryMismatch")
+
 package icons
 
 import com.intellij.openapi.util.IconLoader
