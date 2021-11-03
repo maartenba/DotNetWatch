@@ -9,6 +9,7 @@ import com.jetbrains.rider.plugins.dotnetwatch.DotNetWatchBundle
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.run.configurations.LifetimedSettingsEditor
 import com.jetbrains.rider.run.configurations.controls.*
+import java.util.*
 import javax.swing.JComponent
 
 class DotNetWatchRunConfigurationEditor(private val project: Project)
@@ -29,7 +30,14 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
             EnvironmentVariablesEditor(DotNetWatchBundle.message("run.configuration.environmentVariables.label")),
             FlagEditor(DotNetWatchBundle.message("run.configuration.useExternalConsole.label")),
             ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.label")),
-            FlagEditor(DotNetWatchBundle.message("run.configuration.isVerbose.label"))
+            EnumSelector<DotNetWatchVerbosity>(DotNetWatchBundle.message("run.configuration.verbosity.label"), EnumSet.allOf(DotNetWatchVerbosity::class.java)) {
+                when (it) {
+                    DotNetWatchVerbosity.NORMAL -> DotNetWatchBundle.message("run.configuration.verbosity.normal")
+                    DotNetWatchVerbosity.QUIET -> DotNetWatchBundle.message("run.configuration.verbosity.quiet")
+                    DotNetWatchVerbosity.VERBOSE -> DotNetWatchBundle.message("run.configuration.verbosity.verbose")
+                }
+            },
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressHotReload.label"))
         )
 
         return ControlViewBuilder(lifetime, project).build(viewModel)
@@ -47,7 +55,8 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 isPassParentEnvs,
                 useExternalConsole,
                 isUnloadedProject(project),
-                isVerbose
+                verbosity,
+                isSuppressHotReload
             )
         }
     }
@@ -55,19 +64,18 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
     override fun applyEditorTo(runConfiguration: DotNetWatchRunConfiguration) {
         val selectedProject = viewModel.projectSelector.project.valueOrNull
         val selectedTfm = viewModel.tfmSelector.string.valueOrNull
-        if (selectedProject != null) {
-            if (selectedTfm != null) {
-                runConfiguration.watchOptions().apply {
-                    projectFilePath = selectedProject.projectFilePath
-                    projectTfm = selectedTfm
-                    exePath = FileUtil.toSystemIndependentName(viewModel.exePathSelector.path.value)
-                    programParameters = viewModel.programParametersEditor.parametersString.value
-                    workingDirectory = FileUtil.toSystemIndependentName(viewModel.workingDirectorySelector.path.value)
-                    envs = viewModel.environmentVariablesEditor.envs.value
-                    isPassParentEnvs = viewModel.environmentVariablesEditor.isPassParentEnvs.value
-                    useExternalConsole = viewModel.useExternalConsoleEditor.isSelected.value
-                    isVerbose = viewModel.isVerboseEditor.isSelected.value
-                }
+        if (selectedProject != null && selectedTfm != null) {
+            runConfiguration.watchOptions().apply {
+                projectFilePath = selectedProject.projectFilePath
+                projectTfm = selectedTfm
+                exePath = FileUtil.toSystemIndependentName(viewModel.exePathSelector.path.value)
+                programParameters = viewModel.programParametersEditor.parametersString.value
+                workingDirectory = FileUtil.toSystemIndependentName(viewModel.workingDirectorySelector.path.value)
+                envs = viewModel.environmentVariablesEditor.envs.value
+                isPassParentEnvs = viewModel.environmentVariablesEditor.isPassParentEnvs.value
+                useExternalConsole = viewModel.useExternalConsoleEditor.isSelected.value
+                verbosity = viewModel.verbosityEditor.rawValue.valueOrNull ?: DotNetWatchVerbosity.NORMAL
+                isSuppressHotReload = viewModel.isSuppressHotReloadEditor.isSelected.value
             }
         }
     }

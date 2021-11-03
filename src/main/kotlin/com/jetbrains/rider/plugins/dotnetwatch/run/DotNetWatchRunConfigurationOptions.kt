@@ -9,6 +9,12 @@ import com.jetbrains.rider.projectView.workspace.getProjectModelEntities
 import com.jetbrains.rider.projectView.workspace.isUnloadedProject
 import java.nio.file.Path
 
+enum class DotNetWatchVerbosity(val argumentValue: String?) {
+    NORMAL(null),
+    QUIET("--quiet"),
+    VERBOSE("--verbose")
+}
+
 class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
 
     private var projectFilePathOption = string("").provideDelegate(this, "projectFilePath")
@@ -19,7 +25,8 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     private var envsOption = map<String, String>().provideDelegate(this, "envs")
     private var isPassParentEnvsOption = property(true).provideDelegate(this, "isPassParentEnvs")
     private var useExternalConsoleOption = property(false).provideDelegate(this, "useExternalConsole")
-    private var isVerboseOption = property(false).provideDelegate(this, "isVerbose")
+    private var verbosityOption = string(DotNetWatchVerbosity.NORMAL.name).provideDelegate(this, "verbosity")
+    private var isSuppressHotReloadOption = property(false).provideDelegate(this, "isSuppressHotReload")
 
     var projectFilePath: String
         get() = projectFilePathOption.getValue(this) ?: ""
@@ -53,9 +60,13 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
         get() = useExternalConsoleOption.getValue(this)
         set(value) = useExternalConsoleOption.setValue(this, value)
 
-    var isVerbose: Boolean
-        get() = isVerboseOption.getValue(this)
-        set(value) = isVerboseOption.setValue(this, value)
+    var verbosity: DotNetWatchVerbosity
+        get() = DotNetWatchVerbosity.valueOf(verbosityOption.getValue(this) ?: DotNetWatchVerbosity.NORMAL.name)
+        set(value) = verbosityOption.setValue(this, value.name)
+
+    var isSuppressHotReload: Boolean
+        get() = isSuppressHotReloadOption.getValue(this)
+        set(value) = isSuppressHotReloadOption.setValue(this, value)
 
     fun isUnloadedProject(project: Project) = WorkspaceModel.getInstance(project)
         .getProjectModelEntities(Path.of(projectFilePath), project)

@@ -12,7 +12,7 @@ import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.getFile
 import com.jetbrains.rider.run.configurations.getSelectedProject
 
-// TODO this one overrides the default context menu | Run ..., which is not ideal - can we make this better?
+// REVIEW this one overrides the default context menu | Run ..., which is not ideal - disabled for now
 class DotNetWatchRunConfigurationProducer
     : LazyRunConfigurationProducer<DotNetWatchRunConfiguration>() {
 

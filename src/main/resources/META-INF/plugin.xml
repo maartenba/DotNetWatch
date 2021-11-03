@@ -8,6 +8,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <configurationType implementation="com.jetbrains.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationType"/>
-        <runConfigurationProducer implementation="com.jetbrains.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationProducer"/>
+        <!-- REVIEW this one overrides the default context menu | Run ..., which is not ideal - disabled for now
+        <runConfigurationProducer implementation="com.jetbrains.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationProducer"/>-->
     </extensions>
 </idea-plugin>

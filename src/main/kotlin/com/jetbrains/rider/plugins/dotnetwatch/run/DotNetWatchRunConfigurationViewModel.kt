@@ -1,6 +1,5 @@
 package com.jetbrains.rider.plugins.dotnetwatch.run
 
-import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import com.intellij.util.execution.ParametersListUtil
 import com.jetbrains.rd.ide.model.EnvironmentVariable
@@ -21,13 +20,14 @@ class DotNetWatchRunConfigurationViewModel(
     environmentVariablesEditor: EnvironmentVariablesEditor,
     useExternalConsoleEditor: FlagEditor,
     dotnetWatchSeparator: ViewSeparator,
-    val isVerboseEditor: FlagEditor,
+    val verbosityEditor: EnumSelector<DotNetWatchVerbosity>,
+    val isSuppressHotReloadEditor: FlagEditor,
 ) : DotNetExeConfigurationViewModel(
     lifetime = lifetime,
     project = project,
     exePathSelector = PathSelector("", null, lifetime),
     programParametersEditor = programParametersEditor,
-    workingDirectorySelector = PathSelector("", FileChooserDescriptorFactory.createSingleFolderDescriptor(), lifetime),
+    workingDirectorySelector = PathSelector("", null, lifetime),
     environmentVariablesEditor = environmentVariablesEditor,
     runtimeSelector = RuntimeSelector(""),
     runtimeArgumentsEditor = ProgramParametersEditor("", lifetime),
@@ -43,7 +43,8 @@ class DotNetWatchRunConfigurationViewModel(
         environmentVariablesEditor,
         useExternalConsoleEditor,
         dotnetWatchSeparator,
-        isVerboseEditor
+        verbosityEditor,
+        isSuppressHotReloadEditor
     )
 
     init {
@@ -94,7 +95,8 @@ class DotNetWatchRunConfigurationViewModel(
               passParentEnvs: Boolean,
               useExternalConsole: Boolean,
               isUnloadedProject: Boolean,
-              isVerbose: Boolean
+              verbosity: DotNetWatchVerbosity,
+              isSuppressHotReload: Boolean,
     ) {
         fun resetProperties(exePath: String, programParameters: String, workingDirectory: String) {
             super.reset(
@@ -111,7 +113,8 @@ class DotNetWatchRunConfigurationViewModel(
 
         isLoaded = false
 
-        isVerboseEditor.isSelected.set(isVerbose)
+        verbosityEditor.rawValue.set(verbosity)
+        isSuppressHotReloadEditor.isSelected.set(isSuppressHotReload)
 
         runnableProjectsModel.projects.adviseOnce(lifetime) { projectList ->
 
