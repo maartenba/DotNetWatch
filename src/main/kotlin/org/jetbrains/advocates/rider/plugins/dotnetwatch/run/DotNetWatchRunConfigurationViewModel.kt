@@ -17,6 +17,7 @@ class DotNetWatchRunConfigurationViewModel(
     val projectSelector: ProjectSelector,
     val tfmSelector: StringSelector,
     programParametersEditor: ProgramParametersEditor,
+    workingDirectorySelector: PathSelector,
     environmentVariablesEditor: EnvironmentVariablesEditor,
     useExternalConsoleEditor: FlagEditor,
     dotnetWatchSeparator: ViewSeparator,
@@ -27,7 +28,7 @@ class DotNetWatchRunConfigurationViewModel(
     project = project,
     exePathSelector = PathSelector("", null, lifetime),
     programParametersEditor = programParametersEditor,
-    workingDirectorySelector = PathSelector("", null, lifetime),
+    workingDirectorySelector = workingDirectorySelector,
     environmentVariablesEditor = environmentVariablesEditor,
     runtimeSelector = RuntimeSelector(""),
     runtimeArgumentsEditor = ProgramParametersEditor("", lifetime),
@@ -36,10 +37,14 @@ class DotNetWatchRunConfigurationViewModel(
 
     private var isLoaded = false
 
+    var trackProjectExePath: Boolean = true
+    var trackProjectWorkingDirectory: Boolean = true
+
     override val controls: List<ControlBase> = listOf(
         projectSelector,
         tfmSelector,
         programParametersEditor,
+        workingDirectorySelector,
         environmentVariablesEditor,
         useExternalConsoleEditor,
         dotnetWatchSeparator,
@@ -57,6 +62,8 @@ class DotNetWatchRunConfigurationViewModel(
         )
 
         tfmSelector.string.advise(lifetime) { handleChangeTfmSelection() }
+        exePathSelector.path.advise(lifetime) { recalculateTrackProjectOutput() }
+        workingDirectorySelector.path.advise(lifetime) { recalculateTrackProjectOutput() }
     }
 
     private fun handleProjectSelection(runnableProject: RunnableProject) {
@@ -70,8 +77,11 @@ class DotNetWatchRunConfigurationViewModel(
         projectSelector.project.valueOrNull?.projectOutputs
             ?.singleOrNull { it.tfm?.presentableName == tfmSelector.string.valueOrNull }
             ?.let { projectOutput ->
-                exePathSelector.path.set(projectOutput.exePath)
-                workingDirectorySelector.path.set(projectOutput.workingDirectory)
+                if (trackProjectExePath)
+                    exePathSelector.path.set(projectOutput.exePath)
+
+                if (trackProjectWorkingDirectory)
+                    workingDirectorySelector.path.set(projectOutput.workingDirectory)
             }
     }
 
@@ -86,7 +96,19 @@ class DotNetWatchRunConfigurationViewModel(
         handleChangeTfmSelection()
     }
 
+    private fun recalculateTrackProjectOutput() {
+        val selectedProject = projectSelector.project.valueOrNull ?: return
+        val selectedTfm = tfmSelector.string.valueOrNull ?: return
+
+        selectedProject.projectOutputs.singleOrNull { it.tfm?.presentableName == selectedTfm }?.let { projectOutput ->
+            trackProjectExePath = exePathSelector.path.value.isEmpty() || exePathSelector.path.value == projectOutput.exePath
+            trackProjectWorkingDirectory = workingDirectorySelector.path.value.isEmpty() || workingDirectorySelector.path.value == projectOutput.workingDirectory
+        }
+    }
+
     fun reset(projectFilePath: String,
+              trackProjectExePath: Boolean,
+              trackProjectWorkingDirectory: Boolean,
               projectTfm: String,
               exePath: String,
               programParameters: String,
@@ -112,6 +134,9 @@ class DotNetWatchRunConfigurationViewModel(
         }
 
         isLoaded = false
+
+        this.trackProjectExePath = trackProjectExePath
+        this.trackProjectWorkingDirectory = trackProjectWorkingDirectory
 
         verbosityEditor.rawValue.set(verbosity)
         isSuppressHotReloadEditor.isSelected.set(isSuppressHotReload)

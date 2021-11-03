@@ -9,15 +9,11 @@ import com.jetbrains.rider.projectView.workspace.getProjectModelEntities
 import com.jetbrains.rider.projectView.workspace.isUnloadedProject
 import java.nio.file.Path
 
-enum class DotNetWatchVerbosity(val argumentValue: String?) {
-    NORMAL(null),
-    QUIET("--quiet"),
-    VERBOSE("--verbose")
-}
-
 class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
 
     private var projectFilePathOption = string("").provideDelegate(this, "projectFilePath")
+    private var trackProjectExePathOption = property(true).provideDelegate(this, "trackProjectExePath")
+    private var trackProjectWorkingDirectoryOption = property(true).provideDelegate(this, "trackProjectWorkingDirectory")
     private var projectTfmOption = string("").provideDelegate(this, "projectTfm")
     private var exePathOption = string("").provideDelegate(this, "exePath")
     private var programParametersOption = string("").provideDelegate(this, "programParameters")
@@ -31,6 +27,14 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     var projectFilePath: String
         get() = projectFilePathOption.getValue(this) ?: ""
         set(value) = projectFilePathOption.setValue(this, value)
+
+    var trackProjectExePath: Boolean
+        get() = trackProjectExePathOption.getValue(this)
+        set(value) = trackProjectExePathOption.setValue(this, value)
+
+    var trackProjectWorkingDirectory: Boolean
+        get() = trackProjectWorkingDirectoryOption.getValue(this)
+        set(value) = trackProjectWorkingDirectoryOption.setValue(this, value)
 
     var projectTfm: String
         get() = projectTfmOption.getValue(this) ?: ""

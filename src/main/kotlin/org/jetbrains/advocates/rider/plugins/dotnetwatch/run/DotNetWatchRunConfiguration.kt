@@ -18,6 +18,7 @@ import com.jetbrains.rider.debugger.showElevationDialogIfNeeded
 import com.jetbrains.rider.projectView.solutionDirectory
 import com.jetbrains.rider.run.*
 import com.jetbrains.rider.runtime.RiderDotNetActiveRuntimeHost
+import java.io.File
 
 class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactory, name: String)
     : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name) {
@@ -63,7 +64,8 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                             ParametersListUtil.parse(options.programParameters))
                     }
 
-                    commandLine.workDirectory = project.solutionDirectory
+                    val workingDirectory = options.workingDirectory.let { File(it) }
+                    commandLine.workDirectory = if (workingDirectory.exists()) workingDirectory else project.solutionDirectory
                     commandLine.withParentEnvironmentType(if (options.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE else GeneralCommandLine.ParentEnvironmentType.NONE)
                     commandLine.withEnvironment(options.envs)
 

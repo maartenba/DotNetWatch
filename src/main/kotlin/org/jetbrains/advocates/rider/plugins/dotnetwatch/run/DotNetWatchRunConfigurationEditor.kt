@@ -1,5 +1,6 @@
 package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtil
 import com.jetbrains.rd.util.lifetime.Lifetime
@@ -27,6 +28,7 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
             ProjectSelector(DotNetWatchBundle.message("run.configuration.project.label")),
             StringSelector(DotNetWatchBundle.message("run.configuration.tfm.label")),
             ProgramParametersEditor(DotNetWatchBundle.message("run.configuration.programParameters.label"), lifetime),
+            PathSelector(DotNetWatchBundle.message("run.configuration.workingDirectory.label"), FileChooserDescriptorFactory.createSingleFolderDescriptor(), lifetime),
             EnvironmentVariablesEditor(DotNetWatchBundle.message("run.configuration.environmentVariables.label")),
             FlagEditor(DotNetWatchBundle.message("run.configuration.useExternalConsole.label")),
             ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.label")),
@@ -47,6 +49,8 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
         runConfiguration.watchOptions().apply {
             viewModel.reset(
                 projectFilePath,
+                trackProjectExePath,
+                trackProjectWorkingDirectory,
                 projectTfm,
                 exePath,
                 programParameters,
@@ -67,6 +71,8 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
         if (selectedProject != null && selectedTfm != null) {
             runConfiguration.watchOptions().apply {
                 projectFilePath = selectedProject.projectFilePath
+                trackProjectExePath = viewModel.trackProjectExePath
+                trackProjectWorkingDirectory = viewModel.trackProjectWorkingDirectory
                 projectTfm = selectedTfm
                 exePath = FileUtil.toSystemIndependentName(viewModel.exePathSelector.path.value)
                 programParameters = viewModel.programParametersEditor.parametersString.value
