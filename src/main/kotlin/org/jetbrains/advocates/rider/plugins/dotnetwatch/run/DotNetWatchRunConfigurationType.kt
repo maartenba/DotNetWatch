@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.dotnetwatch.run
+package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
 import com.intellij.execution.configurations.ConfigurationType
 import icons.DotNetWatchIcons

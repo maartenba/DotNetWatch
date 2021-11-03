@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.dotnetwatch
+package org.jetbrains.advocates.rider.plugins.dotnetwatch
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

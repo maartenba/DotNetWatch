@@ -1,11 +1,11 @@
-package com.jetbrains.rider.plugins.dotnetwatch.run
+package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtil
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rdclient.protocol.IPermittedModalities
 import com.jetbrains.rider.model.runnableProjectsModel
-import com.jetbrains.rider.plugins.dotnetwatch.DotNetWatchBundle
+import org.jetbrains.advocates.rider.plugins.dotnetwatch.DotNetWatchBundle
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.run.configurations.LifetimedSettingsEditor
 import com.jetbrains.rider.run.configurations.controls.*

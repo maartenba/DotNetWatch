@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.dotnetwatch.run
+package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
 import com.intellij.openapi.project.Project
 import com.intellij.util.execution.ParametersListUtil

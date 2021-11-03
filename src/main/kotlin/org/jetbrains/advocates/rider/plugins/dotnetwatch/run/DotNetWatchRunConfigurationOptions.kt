@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-package com.jetbrains.rider.plugins.dotnetwatch.run
+package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
 import com.intellij.execution.configurations.RunConfigurationOptions
 import com.intellij.openapi.project.Project
