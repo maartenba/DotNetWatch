@@ -4,8 +4,6 @@
 
 ## [Unreleased]
 
-## [0.1.0]
-
 ### Added
 
 - Add initial support for `dotnet-watch` run configurations
