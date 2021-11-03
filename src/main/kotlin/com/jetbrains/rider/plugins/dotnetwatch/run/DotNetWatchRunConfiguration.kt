@@ -23,22 +23,25 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
     override fun getOptions(): DotNetWatchRunConfigurationOptions =
         super.getOptions() as DotNetWatchRunConfigurationOptions
 
-    override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> = DotNetWatchRunConfigurationEditor()
-
-    override fun checkConfiguration() {
-
-        //if (options.scriptName.isNullOrEmpty()) throw ConfigurationException("Script name should not be empty.")
-
-        super.checkConfiguration()
-    }
+    override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> = DotNetWatchRunConfigurationEditor(project)
 
     override fun getState(executor: Executor, executionEnvironment: ExecutionEnvironment): RunProfileState {
         return object : CommandLineState(executionEnvironment) {
             override fun startProcess(): ProcessHandler {
-                val commandLine = riderDotNetActiveRuntimeHost.dotNetCoreRuntime.value?.createCommandLine(listOf("watch", "--project", options.projectName!!))
-                    ?: throw ExecutionException("Could not determine active .NET runtime.")
+                val commandLine = riderDotNetActiveRuntimeHost.dotNetCoreRuntime.value?.createCommandLine(
+                    listOf(
+                        "watch",
+                        if (options.isVerbose) "--verbose" else "",
+                        "run",
+                        "--project", options.projectFilePath,
+                        "--framework", options.projectTfm,
+                        "--", options.programParameters,
+                    )
+                ) ?: throw ExecutionException("Could not determine active .NET runtime.")
 
                 commandLine.workDirectory = project.solutionDirectory
+                commandLine.withParentEnvironmentType(if (options.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE else GeneralCommandLine.ParentEnvironmentType.NONE)
+                commandLine.withEnvironment(options.envs)
 
                 val processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine)
                 ProcessTerminatedListener.attach(processHandler)

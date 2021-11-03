@@ -12,7 +12,7 @@ import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.projectView.workspace.getFile
 import com.jetbrains.rider.run.configurations.getSelectedProject
 
-// TODO this one overrides the default context menu | Run ..., which should probably be improved
+// TODO this one overrides the default context menu | Run ..., which is not ideal - can we make this better?
 class DotNetWatchRunConfigurationProducer
     : LazyRunConfigurationProducer<DotNetWatchRunConfiguration>() {
 
@@ -29,7 +29,7 @@ class DotNetWatchRunConfigurationProducer
         val projects = context.project.solution.runnableProjectsModel.projects.valueOrNull ?: return false
         val runnableProject = projects.firstOrNull {
             FileUtil.toSystemIndependentName(it.projectFilePath) == selectedProjectFilePathInvariant &&
-                    (configuration.watchOptions().projectName ?: "") == it.name
+                    FileUtil.toSystemIndependentName(configuration.watchOptions().projectFilePath) == selectedProjectFilePathInvariant
         }
 
         return runnableProject != null
@@ -40,7 +40,6 @@ class DotNetWatchRunConfigurationProducer
         context: ConfigurationContext,
         psiElement: Ref<PsiElement>
     ): Boolean {
-        // TODO do we need project file or project name?
         val selectedProjectFilePathInvariant = context.getSelectedProject()?.getFile()?.systemIndependentPath ?: return false
 
         val projects = context.project.solution.runnableProjectsModel.projects.valueOrNull ?: return false
@@ -51,7 +50,7 @@ class DotNetWatchRunConfigurationProducer
         if (configuration.name.isEmpty()) {
             configuration.name = runnableProject.name
         }
-        configuration.watchOptions().projectName = runnableProject.name
+        configuration.watchOptions().projectFilePath = runnableProject.projectFilePath
 
         return true
     }
