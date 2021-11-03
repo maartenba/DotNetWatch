@@ -1,6 +1,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# DotNetWatch Changelog
+# .NET Watch Run Configuration Changelog
+
+- Add Initial Support for `dotnet-watch` run configurations
 
 ## [Unreleased]
 ### Added
