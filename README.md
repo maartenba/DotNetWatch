@@ -9,11 +9,13 @@ Features include:
 
 - Project Selection
 - Target Framework Selection
+- Program Arguments
+- Working Directory
 - Environment Variables editor
-- Command Line Arguments editor
+- Use External Console flag
 - Verbosity (`--quiet`, `--verbose`, or default)
-- Hot Reload Switches support
-- Before Execution options
+- Suppress Hot Reload (only .NET 6)
+- Before Launch options
 
 <!-- Plugin description end -->
 
