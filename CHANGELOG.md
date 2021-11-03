@@ -2,8 +2,10 @@
 
 # .NET Watch Run Configuration Changelog
 
-- Add Initial Support for `dotnet-watch` run configurations
-
 ## [Unreleased]
+
+## [0.1.0]
+
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+
+- Add initial support for `dotnet-watch` run configurations

@@ -19,6 +19,8 @@ Features include:
 
 <!-- Plugin description end -->
 
+Plugin built by the JetBrains Developer Advocates.
+
 ## Screenshots
 
 ### Plugins Screen
