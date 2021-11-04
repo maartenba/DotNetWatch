@@ -79,11 +79,16 @@ class DotNetWatchRunConfigurationViewModel(
         projectSelector.project.valueOrNull?.projectOutputs
             ?.singleOrNull { it.tfm?.presentableName == tfmSelector.string.valueOrNull }
             ?.let { projectOutput ->
+                // Tracked values
                 if (trackProjectExePath)
                     exePathSelector.path.set(projectOutput.exePath)
 
                 if (trackProjectWorkingDirectory)
                     workingDirectorySelector.path.set(projectOutput.workingDirectory)
+
+                // Update default values (e.g. when folks reset the model)
+                exePathSelector.defaultValue.set(projectOutput.exePath)
+                workingDirectorySelector.defaultValue.set(projectOutput.workingDirectory)
             }
     }
 
