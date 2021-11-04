@@ -8,6 +8,7 @@ import com.jetbrains.rd.util.reactive.adviseOnce
 import com.jetbrains.rider.model.*
 import com.jetbrains.rider.run.configurations.controls.*
 import com.jetbrains.rider.run.configurations.dotNetExe.DotNetExeConfigurationViewModel
+import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
 import java.io.File
 
 class DotNetWatchRunConfigurationViewModel(
@@ -37,6 +38,9 @@ class DotNetWatchRunConfigurationViewModel(
 
     private var isLoaded = false
 
+    // For filtering list of projects - show only console/web/wcf/dotnetcore, not launchsettings etc.
+    private val type = DotNetProjectConfigurationType()
+
     var trackProjectExePath: Boolean = true
     var trackProjectWorkingDirectory: Boolean = true
 
@@ -58,7 +62,7 @@ class DotNetWatchRunConfigurationViewModel(
         projectSelector.bindTo(
             runnableProjectsModel = runnableProjectsModel,
             lifetime = lifetime,
-            projectFilter = { true },
+            projectFilter = { p -> type.isApplicable(p.kind) },
             onLoad = ::enable,
             onSelect = ::handleProjectSelection
         )
