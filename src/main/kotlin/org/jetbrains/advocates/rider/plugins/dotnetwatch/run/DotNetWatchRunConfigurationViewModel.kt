@@ -53,6 +53,8 @@ class DotNetWatchRunConfigurationViewModel(
     )
 
     init {
+        disable()
+
         projectSelector.bindTo(
             runnableProjectsModel = runnableProjectsModel,
             lifetime = lifetime,
