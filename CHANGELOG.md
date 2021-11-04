@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.1.2]
+
 ### Fixes
 
 - Working directory not updating in projects with multiple targets
