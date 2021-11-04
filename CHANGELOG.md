@@ -8,6 +8,7 @@
 
 - Working directory not updating in projects with multiple targets
 - Duplicate projects in project selector are no longer shown
+- Loading configuration editor no longer shows blank fields
 
 ## [0.1.1]
 

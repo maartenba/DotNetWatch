@@ -154,10 +154,12 @@ class DotNetWatchRunConfigurationViewModel(
 
         runnableProjectsModel.projects.adviseOnce(lifetime) { projectList ->
 
-            if (projectFilePath.isEmpty() || projectList.none { it.projectFilePath == projectFilePath }) {
+            if (projectFilePath.isEmpty() || projectList.none {
+                    it.projectFilePath == projectFilePath && type.isApplicable(it.kind) }) {
+
                 // Case when project is not selected - generate a fake entry
                 if (projectFilePath.isEmpty() || !isUnloadedProject) {
-                    projectList.firstOrNull()?.let { project ->
+                    projectList.firstOrNull { type.isApplicable(it.kind) }?.let { project ->
                         projectSelector.project.set(project)
                         isLoaded = true
                         handleProjectSelection(project)
@@ -186,7 +188,10 @@ class DotNetWatchRunConfigurationViewModel(
                         workingDirectory = workingDirectory)
                 }
             } else {
-                projectList.singleOrNull { it.projectFilePath == projectFilePath  }?.let { runnableProject ->
+                projectList.singleOrNull {
+                    it.projectFilePath == projectFilePath && type.isApplicable(it.kind)
+                }?.let { runnableProject ->
+
                     projectSelector.project.set(runnableProject)
 
                     // Set TFM
