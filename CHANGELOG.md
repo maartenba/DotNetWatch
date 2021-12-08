@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.1.3]
+
 ### Added
 
 - Compatibility with Rider 2021.3 RTM
