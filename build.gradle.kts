@@ -23,6 +23,19 @@ version = properties("pluginVersion")
 repositories {
     mavenCentral()
 }
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+}
+
+// Compilation
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
