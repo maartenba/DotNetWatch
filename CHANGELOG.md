@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.4]
+
+### Fixes
+
+- Unable to use hotreload with --framework flag in command line [#2](https://github.com/maartenba/DotNetWatch/issues/2)
+
 ## [0.1.3]
 
 ### Added

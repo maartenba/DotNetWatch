@@ -17,6 +17,8 @@ import com.jetbrains.rd.platform.util.getComponent
 import com.jetbrains.rider.debugger.showElevationDialogIfNeeded
 import com.jetbrains.rider.projectView.solutionDirectory
 import com.jetbrains.rider.run.*
+import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
+import com.jetbrains.rider.run.configurations.runnableProjectsModelIfAvailable
 import com.jetbrains.rider.runtime.RiderDotNetActiveRuntimeHost
 import java.io.File
 
@@ -26,6 +28,9 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
     private val riderDotNetActiveRuntimeHost = project.getComponent<RiderDotNetActiveRuntimeHost>()
 
     fun watchOptions() = options
+
+    // For filtering list of projects - show only console/web/wcf/dotnetcore, not launchsettings etc.
+    private val type = DotNetProjectConfigurationType()
 
     override fun getOptions(): DotNetWatchRunConfigurationOptions =
         super.getOptions() as DotNetWatchRunConfigurationOptions
@@ -47,10 +52,22 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                         listOf(
                             "watch",
                             "run",
-                            "--project", options.projectFilePath,
-                            "--framework", options.projectTfm
+                            "--project", options.projectFilePath
                         )
                     )
+
+                    // When there is only one TFM for the project, and it is the same as the one in the Run configuration, do not emit `--framework` - https://github.com/maartenba/DotNetWatch/issues/2
+                    project.runnableProjectsModelIfAvailable?.projects?.valueOrNull?.let { runnableProjects ->
+                        val runnableProject = runnableProjects.singleOrNull {
+                            it.projectFilePath == options.projectFilePath && type.isApplicable(it.kind)
+                        }
+
+                        if (runnableProject != null &&
+                            runnableProject.projectOutputs.size == 1 &&
+                            runnableProject.projectOutputs.any { it.tfm?.presentableName != options.projectTfm }) {
+                            commandLine.addParameters("--framework", options.projectTfm)
+                        }
+                    }
 
                     options.verbosity.argumentValue?.let { commandLine.addParameter(it) }
 
