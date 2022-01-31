@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.5]
+
+### Added
+
+- Compatibility with Rider 2022.1 EAP
+
 ## [0.1.4]
 
 ### Fixes

@@ -25,21 +25,21 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
             lifetime,
             project,
             project.solution.runnableProjectsModel,
-            ProjectSelector(DotNetWatchBundle.message("run.configuration.project.label")),
-            StringSelector(DotNetWatchBundle.message("run.configuration.tfm.label")),
-            ProgramParametersEditor(DotNetWatchBundle.message("run.configuration.programParameters.label"), lifetime),
-            PathSelector(DotNetWatchBundle.message("run.configuration.workingDirectory.label"), FileChooserDescriptorFactory.createSingleFolderDescriptor(), lifetime),
-            EnvironmentVariablesEditor(DotNetWatchBundle.message("run.configuration.environmentVariables.label")),
-            FlagEditor(DotNetWatchBundle.message("run.configuration.useExternalConsole.label")),
+            ProjectSelector(DotNetWatchBundle.message("run.configuration.project.label"), "Project"),
+            StringSelector(DotNetWatchBundle.message("run.configuration.tfm.label"), "Target_framework"),
+            ProgramParametersEditor(DotNetWatchBundle.message("run.configuration.programParameters.label"), "Program_arguments", lifetime),
+            PathSelector(DotNetWatchBundle.message("run.configuration.workingDirectory.label"), "Working_directory", FileChooserDescriptorFactory.createSingleFolderDescriptor(), lifetime),
+            EnvironmentVariablesEditor(DotNetWatchBundle.message("run.configuration.environmentVariables.label"), "Environment_variables"),
+            FlagEditor(DotNetWatchBundle.message("run.configuration.useExternalConsole.label"), "Use_external_console"),
             ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.label")),
-            EnumSelector<DotNetWatchVerbosity>(DotNetWatchBundle.message("run.configuration.verbosity.label"), EnumSet.allOf(DotNetWatchVerbosity::class.java)) {
+            EnumSelector<DotNetWatchVerbosity>(DotNetWatchBundle.message("run.configuration.verbosity.label"), "Dotnet_watch_verbosity", EnumSet.allOf(DotNetWatchVerbosity::class.java)) {
                 when (it) {
                     DotNetWatchVerbosity.NORMAL -> DotNetWatchBundle.message("run.configuration.verbosity.normal")
                     DotNetWatchVerbosity.QUIET -> DotNetWatchBundle.message("run.configuration.verbosity.quiet")
                     DotNetWatchVerbosity.VERBOSE -> DotNetWatchBundle.message("run.configuration.verbosity.verbose")
                 }
             },
-            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressHotReload.label"))
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressHotReload.label"), "Dotnet_watch_suppress_hotreload")
         )
 
         return ControlViewBuilder(lifetime, project).build(viewModel)

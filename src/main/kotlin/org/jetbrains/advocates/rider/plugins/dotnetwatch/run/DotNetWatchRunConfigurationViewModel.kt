@@ -27,12 +27,12 @@ class DotNetWatchRunConfigurationViewModel(
 ) : DotNetExeConfigurationViewModel(
     lifetime = lifetime,
     project = project,
-    exePathSelector = PathSelector("", null, lifetime),
+    exePathSelector = PathSelector("", "Exe_path", null, lifetime),
     programParametersEditor = programParametersEditor,
     workingDirectorySelector = workingDirectorySelector,
     environmentVariablesEditor = environmentVariablesEditor,
-    runtimeSelector = RuntimeSelector(""),
-    runtimeArgumentsEditor = ProgramParametersEditor("", lifetime),
+    runtimeSelector = RuntimeSelector("", "Runtime"),
+    runtimeArgumentsEditor = ProgramParametersEditor("", "Runtime_arguments", lifetime),
     trackExePathInWorkingDirectoryIfItPossible = false,
     useExternalConsoleEditor = useExternalConsoleEditor) {
 
@@ -171,7 +171,7 @@ class DotNetWatchRunConfigurationViewModel(
                         listOf(
                             ProjectOutput(
                                 RdTargetFrameworkId("", projectTfm, false, false), exePath,
-                                ParametersListUtil.parse(programParameters), workingDirectory, "", null
+                                ParametersListUtil.parse(programParameters), workingDirectory, "", null, emptyList()
                             )
                         ),
                         envs.map { EnvironmentVariable(it.key, it.value) }.toList(), null, listOf()
