@@ -24,6 +24,7 @@ class DotNetWatchRunConfigurationViewModel(
     dotnetWatchSeparator: ViewSeparator,
     val verbosityEditor: EnumSelector<DotNetWatchVerbosity>,
     val isSuppressHotReloadEditor: FlagEditor,
+    val isRestartOnRudeEditEditor: FlagEditor
 ) : DotNetExeConfigurationViewModel(
     lifetime = lifetime,
     project = project,
@@ -53,7 +54,8 @@ class DotNetWatchRunConfigurationViewModel(
         useExternalConsoleEditor,
         dotnetWatchSeparator,
         verbosityEditor,
-        isSuppressHotReloadEditor
+        isSuppressHotReloadEditor,
+        isRestartOnRudeEditEditor
     )
 
     init {
@@ -130,6 +132,7 @@ class DotNetWatchRunConfigurationViewModel(
               isUnloadedProject: Boolean,
               verbosity: DotNetWatchVerbosity,
               isSuppressHotReload: Boolean,
+              isRestartOnRudeEdit: Boolean
     ) {
         fun resetProperties(exePath: String, programParameters: String, workingDirectory: String) {
             super.reset(
@@ -151,6 +154,7 @@ class DotNetWatchRunConfigurationViewModel(
 
         verbosityEditor.rawValue.set(verbosity)
         isSuppressHotReloadEditor.isSelected.set(isSuppressHotReload)
+        isRestartOnRudeEditEditor.isSelected.set(isRestartOnRudeEdit)
 
         runnableProjectsModel.projects.adviseOnce(lifetime) { projectList ->
 

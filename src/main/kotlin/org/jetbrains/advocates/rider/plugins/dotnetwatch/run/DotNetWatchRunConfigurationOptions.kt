@@ -23,6 +23,7 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     private var useExternalConsoleOption = property(false).provideDelegate(this, "useExternalConsole")
     private var verbosityOption = string(DotNetWatchVerbosity.NORMAL.name).provideDelegate(this, "verbosity")
     private var isSuppressHotReloadOption = property(false).provideDelegate(this, "isSuppressHotReload")
+    private var isRestartOnRudeEditEditorOption = property(false).provideDelegate(this, "isRestartOnRudeEditEditor")
 
     var projectFilePath: String
         get() = projectFilePathOption.getValue(this) ?: ""
@@ -71,6 +72,10 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     var isSuppressHotReload: Boolean
         get() = isSuppressHotReloadOption.getValue(this)
         set(value) = isSuppressHotReloadOption.setValue(this, value)
+
+    var isRestartOnRudeEditEditor: Boolean
+        get() = isRestartOnRudeEditEditorOption.getValue(this)
+        set(value) = isRestartOnRudeEditEditorOption.setValue(this, value)
 
     fun isUnloadedProject(project: Project) = WorkspaceModel.getInstance(project)
         .getProjectModelEntities(Path.of(projectFilePath), project)

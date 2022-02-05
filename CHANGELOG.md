@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.6]
+
+### Added
+
+- Add checkbox for DOTNET_WATCH_RESTART_ON_RUDE_EDIT [#3](https://github.com/maartenba/DotNetWatch/issues/3)
+
 ## [0.1.5]
 
 ### Added

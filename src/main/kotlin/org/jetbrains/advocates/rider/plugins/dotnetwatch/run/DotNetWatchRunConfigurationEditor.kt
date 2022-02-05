@@ -39,7 +39,8 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                     DotNetWatchVerbosity.VERBOSE -> DotNetWatchBundle.message("run.configuration.verbosity.verbose")
                 }
             },
-            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressHotReload.label"), "Dotnet_watch_suppress_hotreload")
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressHotReload.label"), "Dotnet_watch_suppress_hotreload"),
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isRestartOnRudeEdit.label"), "Dotnet_watch_restart_on_rude_edit")
         )
 
         return ControlViewBuilder(lifetime, project).build(viewModel)
@@ -60,7 +61,8 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 useExternalConsole,
                 isUnloadedProject(project),
                 verbosity,
-                isSuppressHotReload
+                isSuppressHotReload,
+                isRestartOnRudeEditEditor
             )
         }
     }
@@ -82,6 +84,7 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 useExternalConsole = viewModel.useExternalConsoleEditor.isSelected.value
                 verbosity = viewModel.verbosityEditor.rawValue.valueOrNull ?: DotNetWatchVerbosity.NORMAL
                 isSuppressHotReload = viewModel.isSuppressHotReloadEditor.isSelected.value
+                isRestartOnRudeEditEditor = viewModel.isRestartOnRudeEditEditor.isSelected.value
             }
         }
     }

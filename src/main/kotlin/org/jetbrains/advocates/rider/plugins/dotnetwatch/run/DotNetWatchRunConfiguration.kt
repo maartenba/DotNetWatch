@@ -86,6 +86,10 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                     commandLine.withParentEnvironmentType(if (options.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE else GeneralCommandLine.ParentEnvironmentType.NONE)
                     commandLine.withEnvironment(options.envs)
 
+                    if (options.isRestartOnRudeEditEditor) {
+                        commandLine.withEnvironment("DOTNET_WATCH_RESTART_ON_RUDE_EDIT", "true")
+                    }
+
                     // Start process
                     val processHandler = if (options.useExternalConsole)
                         ExternalConsoleMediator.createProcessHandler(commandLine)
