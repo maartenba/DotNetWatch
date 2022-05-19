@@ -6,6 +6,7 @@ import com.jetbrains.rd.ide.model.EnvironmentVariable
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.adviseOnce
 import com.jetbrains.rider.model.*
+import com.jetbrains.rider.run.configurations.RunnableProjectKinds
 import com.jetbrains.rider.run.configurations.controls.*
 import com.jetbrains.rider.run.configurations.dotNetExe.DotNetExeConfigurationViewModel
 import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
@@ -171,7 +172,7 @@ class DotNetWatchRunConfigurationViewModel(
                 } else {
                     val fakeProjectName = File(projectFilePath).name
                     val fakeProject = RunnableProject(
-                        fakeProjectName, fakeProjectName, projectFilePath, RunnableProjectKind.Unloaded,
+                        fakeProjectName, fakeProjectName, projectFilePath, RunnableProjectKinds.Unloaded,
                         listOf(
                             ProjectOutput(
                                 RdTargetFrameworkId("", projectTfm, false, false), exePath,
