@@ -23,7 +23,7 @@ import com.jetbrains.rider.runtime.RiderDotNetActiveRuntimeHost
 import java.io.File
 
 class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactory, name: String)
-    : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name) {
+    : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name) /*TODO 223: BuildAwareRunConfiguration */ {
 
     private val riderDotNetActiveRuntimeHost = project.getComponent<RiderDotNetActiveRuntimeHost>()
 
