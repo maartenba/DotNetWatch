@@ -4,9 +4,13 @@
 
 ## [Unreleased]
 
-## [2022.2.1]
+## [2022.2.2]
 
 - Compatibility with Rider 2022.2
+
+## [2022.2.1]
+
+- Compatibility with Rider 2022.2 EAP9
 
 ## [2022.2.0]
 
