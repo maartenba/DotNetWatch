@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [2022.2.3]
+
+- Fix issue where working directory was not updated when changing selected project
+
 ## [2022.2.2]
 
 - Compatibility with Rider 2022.2

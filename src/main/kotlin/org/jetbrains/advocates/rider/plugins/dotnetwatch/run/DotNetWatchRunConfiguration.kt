@@ -81,7 +81,7 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                             ParametersListUtil.parse(options.programParameters))
                     }
 
-                    val workingDirectory = options.workingDirectory.let { File(it) }
+                    val workingDirectory = File(options.workingDirectory)
                     commandLine.workDirectory = if (workingDirectory.exists()) workingDirectory else project.solutionDirectory
                     commandLine.withParentEnvironmentType(if (options.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE else GeneralCommandLine.ParentEnvironmentType.NONE)
                     commandLine.withEnvironment(options.envs)
