@@ -31,7 +31,7 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
             PathSelector(DotNetWatchBundle.message("run.configuration.workingDirectory.label"), "Working_directory", FileChooserDescriptorFactory.createSingleFolderDescriptor(), lifetime),
             EnvironmentVariablesEditor(DotNetWatchBundle.message("run.configuration.environmentVariables.label"), "Environment_variables"),
             FlagEditor(DotNetWatchBundle.message("run.configuration.useExternalConsole.label"), "Use_external_console"),
-            ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.label")),
+            ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.additional.label")),
             EnumSelector<DotNetWatchVerbosity>(DotNetWatchBundle.message("run.configuration.verbosity.label"), "Dotnet_watch_verbosity", EnumSet.allOf(DotNetWatchVerbosity::class.java)) {
                 when (it) {
                     DotNetWatchVerbosity.NORMAL -> DotNetWatchBundle.message("run.configuration.verbosity.normal")
@@ -40,7 +40,11 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 }
             },
             FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressHotReload.label"), "Dotnet_watch_suppress_hotreload"),
-            FlagEditor(DotNetWatchBundle.message("run.configuration.isRestartOnRudeEdit.label"), "Dotnet_watch_restart_on_rude_edit")
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isRestartOnRudeEdit.label"), "Dotnet_watch_restart_on_rude_edit"),
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isUsePollingFileWatcher.label"), "Dotnet_watch_use_polling"),
+            ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.browser.label")),
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressBrowserLaunch.label"), "Dotnet_watch_suppress_browser_launch"),
+            FlagEditor(DotNetWatchBundle.message("run.configuration.isSuppressBrowserRefresh.label"), "Dotnet_watch_suppress_browser_refresh")
         )
 
         return ControlViewBuilder(lifetime, project).build(viewModel)
@@ -62,7 +66,10 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 isUnloadedProject(project),
                 verbosity,
                 isSuppressHotReload,
-                isRestartOnRudeEditEditor
+                isRestartOnRudeEditEditor,
+                isUsePollingFileWatcher,
+                isSuppressBrowserLaunch,
+                isSuppressBrowserRefresh
             )
         }
     }

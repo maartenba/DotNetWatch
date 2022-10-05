@@ -22,10 +22,14 @@ class DotNetWatchRunConfigurationViewModel(
     workingDirectorySelector: PathSelector,
     environmentVariablesEditor: EnvironmentVariablesEditor,
     useExternalConsoleEditor: FlagEditor,
-    dotnetWatchSeparator: ViewSeparator,
+    dotnetWatchAdditionalOptionsSeparator: ViewSeparator,
     val verbosityEditor: EnumSelector<DotNetWatchVerbosity>,
     val isSuppressHotReloadEditor: FlagEditor,
-    val isRestartOnRudeEditEditor: FlagEditor
+    val isRestartOnRudeEditEditor: FlagEditor,
+    val isUsePollingFileWatcherEditor: FlagEditor,
+    dotnetWatchBrowserOptionsSeparator: ViewSeparator,
+    val isSuppressBrowserLaunchEditor: FlagEditor,
+    val isSuppressBrowserRefreshEditor: FlagEditor,
 ) : DotNetExeConfigurationViewModel(
     lifetime = lifetime,
     project = project,
@@ -53,10 +57,14 @@ class DotNetWatchRunConfigurationViewModel(
         workingDirectorySelector,
         environmentVariablesEditor,
         useExternalConsoleEditor,
-        dotnetWatchSeparator,
+        dotnetWatchBrowserOptionsSeparator,
+        isSuppressBrowserLaunchEditor,
+        isSuppressBrowserRefreshEditor,
+        dotnetWatchAdditionalOptionsSeparator,
         verbosityEditor,
         isSuppressHotReloadEditor,
-        isRestartOnRudeEditEditor
+        isRestartOnRudeEditEditor,
+        isUsePollingFileWatcherEditor
     )
 
     init {
@@ -137,7 +145,10 @@ class DotNetWatchRunConfigurationViewModel(
               isUnloadedProject: Boolean,
               verbosity: DotNetWatchVerbosity,
               isSuppressHotReload: Boolean,
-              isRestartOnRudeEdit: Boolean
+              isRestartOnRudeEdit: Boolean,
+              isUsePollingFileWatcher: Boolean,
+              isSuppressBrowserLaunch: Boolean,
+              isSuppressBrowserRefresh: Boolean
     ) {
         fun resetProperties(exePath: String, programParameters: String, workingDirectory: String) {
             super.reset(
@@ -160,6 +171,9 @@ class DotNetWatchRunConfigurationViewModel(
         verbosityEditor.rawValue.set(verbosity)
         isSuppressHotReloadEditor.isSelected.set(isSuppressHotReload)
         isRestartOnRudeEditEditor.isSelected.set(isRestartOnRudeEdit)
+        isUsePollingFileWatcherEditor.isSelected.set(isUsePollingFileWatcher)
+        isSuppressBrowserLaunchEditor.isSelected.set(isSuppressBrowserLaunch)
+        isSuppressBrowserRefreshEditor.isSelected.set(isSuppressBrowserRefresh)
 
         runnableProjectsModel.projects.adviseOnce(lifetime) { projectList ->
 

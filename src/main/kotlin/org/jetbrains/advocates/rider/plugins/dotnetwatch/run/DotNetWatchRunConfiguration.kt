@@ -90,6 +90,15 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                     if (options.isRestartOnRudeEditEditor) {
                         commandLine.withEnvironment("DOTNET_WATCH_RESTART_ON_RUDE_EDIT", "true")
                     }
+                    if (options.isUsePollingFileWatcher) {
+                        commandLine.withEnvironment("DOTNET_USE_POLLING_FILE_WATCHER", "true")
+                    }
+                    if (options.isSuppressBrowserLaunch) {
+                        commandLine.withEnvironment("DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER", "true")
+                    }
+                    if (options.isSuppressBrowserRefresh) {
+                        commandLine.withEnvironment("DOTNET_WATCH_SUPPRESS_BROWSER_REFRESH", "true")
+                    }
 
                     // Start process
                     val processHandler = if (options.useExternalConsole)

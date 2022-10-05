@@ -24,6 +24,9 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     private var verbosityOption = string(DotNetWatchVerbosity.NORMAL.name).provideDelegate(this, "verbosity")
     private var isSuppressHotReloadOption = property(false).provideDelegate(this, "isSuppressHotReload")
     private var isRestartOnRudeEditEditorOption = property(false).provideDelegate(this, "isRestartOnRudeEditEditor")
+    private var isUsePollingFileWatcherOption = property(false).provideDelegate(this, "isUsePollingFileWatcher")
+    private var isSuppressBrowserLaunchOption = property(false).provideDelegate(this, "isSuppressBrowserLaunch")
+    private var isSuppressBrowserRefreshOption = property(false).provideDelegate(this, "isSuppressBrowserRefresh")
 
     var projectFilePath: String
         get() = projectFilePathOption.getValue(this) ?: ""
@@ -76,6 +79,18 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     var isRestartOnRudeEditEditor: Boolean
         get() = isRestartOnRudeEditEditorOption.getValue(this)
         set(value) = isRestartOnRudeEditEditorOption.setValue(this, value)
+
+    var isUsePollingFileWatcher: Boolean
+        get() = isUsePollingFileWatcherOption.getValue(this)
+        set(value) = isUsePollingFileWatcherOption.setValue(this, value)
+
+    var isSuppressBrowserLaunch: Boolean
+        get() = isSuppressBrowserLaunchOption.getValue(this)
+        set(value) = isSuppressBrowserLaunchOption.setValue(this, value)
+
+    var isSuppressBrowserRefresh: Boolean
+        get() = isSuppressBrowserRefreshOption.getValue(this)
+        set(value) = isSuppressBrowserRefreshOption.setValue(this, value)
 
     fun isUnloadedProject(project: Project) = WorkspaceModel.getInstance(project)
         .getProjectModelEntities(Path.of(projectFilePath), project)
