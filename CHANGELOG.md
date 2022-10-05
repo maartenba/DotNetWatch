@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [2022.3.0]
+
+- Compatibility with Rider 2022.3 EAP1
+
 ## [2022.2.3]
 
 - Fix issue where working directory was not updated when changing selected project
