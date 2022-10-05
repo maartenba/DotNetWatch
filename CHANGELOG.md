@@ -6,6 +6,7 @@
 
 ## [2022.3.0]
 
+- Do not stop dotnet watch process when a build is started [#4](https://github.com/maartenba/DotNetWatch/issues/4)
 - Compatibility with Rider 2022.3 EAP1
 
 ## [2022.2.3]

@@ -17,13 +17,14 @@ import com.jetbrains.rd.platform.util.getComponent
 import com.jetbrains.rider.debugger.showElevationDialogIfNeeded
 import com.jetbrains.rider.projectView.solutionDirectory
 import com.jetbrains.rider.run.*
+import com.jetbrains.rider.run.configurations.BuildAwareRunConfiguration
 import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
 import com.jetbrains.rider.run.configurations.runnableProjectsModelIfAvailable
 import com.jetbrains.rider.runtime.RiderDotNetActiveRuntimeHost
 import java.io.File
 
 class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactory, name: String)
-    : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name) /*TODO 223: BuildAwareRunConfiguration */ {
+    : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name), BuildAwareRunConfiguration {
 
     private val riderDotNetActiveRuntimeHost = project.getComponent<RiderDotNetActiveRuntimeHost>()
 
@@ -117,4 +118,6 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
             }
         }
     }
+
+    override fun mustBeStoppedToRunBuild(): Boolean = false
 }
