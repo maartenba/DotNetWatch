@@ -92,6 +92,9 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 verbosity = viewModel.verbosityEditor.rawValue.valueOrNull ?: DotNetWatchVerbosity.NORMAL
                 isSuppressHotReload = viewModel.isSuppressHotReloadEditor.isSelected.value
                 isRestartOnRudeEditEditor = viewModel.isRestartOnRudeEditEditor.isSelected.value
+                isUsePollingFileWatcher = viewModel.isUsePollingFileWatcherEditor.isSelected.value
+                isSuppressBrowserLaunch = viewModel.isSuppressBrowserLaunchEditor.isSelected.value
+                isSuppressBrowserRefresh = viewModel.isSuppressBrowserRefreshEditor.isSelected.value
             }
         }
     }
