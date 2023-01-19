@@ -4,12 +4,16 @@
 
 ## [Unreleased]
 
+## [2023.1.0]
+
+- Compatibility with Rider 2023.1
+
 ## [2022.3.0]
 
 - Add checkbox for DOTNET_WATCH_SUPPRESS_BROWSER_REFRESH, DOTNET_USE_POLLING_FILE_WATCHER
 - Add checkbox to disable automatic browser launch [#5](https://github.com/maartenba/DotNetWatch/issues/5)
 - Do not stop dotnet watch process when a build is started [#4](https://github.com/maartenba/DotNetWatch/issues/4)
-- Compatibility with Rider 2022.3 EAP1
+- Compatibility with Rider 2022.3
 
 ## [2022.2.3]
 

@@ -8,6 +8,7 @@ import com.jetbrains.rd.util.reactive.adviseOnce
 import com.jetbrains.rider.model.*
 import com.jetbrains.rider.run.configurations.RunnableProjectKinds
 import com.jetbrains.rider.run.configurations.controls.*
+import com.jetbrains.rider.run.configurations.controls.runtimeSelection.RuntimeSelector
 import com.jetbrains.rider.run.configurations.dotNetExe.DotNetExeConfigurationViewModel
 import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
 import java.io.File
@@ -37,7 +38,7 @@ class DotNetWatchRunConfigurationViewModel(
     programParametersEditor = programParametersEditor,
     workingDirectorySelector = workingDirectorySelector,
     environmentVariablesEditor = environmentVariablesEditor,
-    runtimeSelector = RuntimeSelector("", "Runtime"),
+    runtimeSelector = RuntimeSelector("", "Runtime", project, lifetime),
     runtimeArgumentsEditor = ProgramParametersEditor("", "Runtime_arguments", lifetime),
     trackExePathInWorkingDirectoryIfItPossible = false,
     useExternalConsoleEditor = useExternalConsoleEditor) {
