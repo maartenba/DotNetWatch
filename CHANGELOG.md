@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [2023.1.1]
+
+- Minor compatibility fixes
+
 ## [2023.1.0]
 
 - Compatibility with Rider 2023.1
