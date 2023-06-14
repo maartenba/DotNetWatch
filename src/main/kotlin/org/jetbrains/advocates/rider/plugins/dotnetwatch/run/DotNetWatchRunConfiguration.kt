@@ -13,7 +13,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import com.intellij.util.execution.ParametersListUtil
-import com.jetbrains.rd.platform.util.getComponent
 import com.jetbrains.rider.debugger.showElevationDialogIfNeeded
 import com.jetbrains.rider.projectView.solutionDirectory
 import com.jetbrains.rider.run.*
@@ -21,12 +20,13 @@ import com.jetbrains.rider.run.configurations.BuildAwareRunConfiguration
 import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
 import com.jetbrains.rider.run.configurations.runnableProjectsModelIfAvailable
 import com.jetbrains.rider.runtime.RiderDotNetActiveRuntimeHost
+import com.jetbrains.rider.util.idea.getService
 import java.io.File
 
 class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactory, name: String)
     : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name), BuildAwareRunConfiguration {
 
-    private val riderDotNetActiveRuntimeHost = project.getComponent<RiderDotNetActiveRuntimeHost>()
+    private val riderDotNetActiveRuntimeHost = project.getService<RiderDotNetActiveRuntimeHost>()
 
     fun watchOptions() = options
 
@@ -57,15 +57,29 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                         )
                     )
 
-                    // When there is only one TFM for the project, and it is the same as the one in the Run configuration, do not emit `--framework` - https://github.com/maartenba/DotNetWatch/issues/2
+                    // Determine target framework version parameter
                     project.runnableProjectsModelIfAvailable?.projects?.valueOrNull?.let { runnableProjects ->
                         val runnableProject = runnableProjects.singleOrNull {
                             it.projectFilePath == options.projectFilePath && type.isApplicable(it.kind)
+                        } ?: return@let
+
+                        // When there is only one TFM for the project, and it is not the same as the one in the Run configuration,
+                        // emit `--framework` with the only option that is available
+                        if (runnableProject.projectOutputs.size == 1) {
+                            val runnableProjectOutput = runnableProject.projectOutputs.firstOrNull()
+                            val runnableProjectOutputTfm = runnableProjectOutput?.tfm?.presentableName
+
+                            if (runnableProjectOutputTfm != null &&
+                                runnableProjectOutputTfm != options.projectTfm) {
+
+                                options.projectTfm = runnableProjectOutputTfm
+                                commandLine.addParameters("--framework", options.projectTfm)
+                                return@let
+                            }
                         }
 
-                        if (runnableProject != null &&
-                            runnableProject.projectOutputs.size == 1 &&
-                            runnableProject.projectOutputs.any { it.tfm?.presentableName != options.projectTfm }) {
+                        // Use configured/available TFM
+                        if (runnableProject.projectOutputs.any { it.tfm?.presentableName == options.projectTfm }) {
                             commandLine.addParameters("--framework", options.projectTfm)
                         }
                     }

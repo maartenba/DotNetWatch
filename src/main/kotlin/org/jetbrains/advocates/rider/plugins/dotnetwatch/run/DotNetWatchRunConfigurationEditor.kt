@@ -16,7 +16,7 @@ import javax.swing.JComponent
 class DotNetWatchRunConfigurationEditor(private val project: Project)
     : LifetimedSettingsEditor<DotNetWatchRunConfiguration>() {
 
-    lateinit var viewModel: DotNetWatchRunConfigurationViewModel
+    private lateinit var viewModel: DotNetWatchRunConfigurationViewModel
 
     override fun createEditor(lifetime: Lifetime) : JComponent {
         IPermittedModalities.getInstance().allowPumpProtocolUnderCurrentModality()
