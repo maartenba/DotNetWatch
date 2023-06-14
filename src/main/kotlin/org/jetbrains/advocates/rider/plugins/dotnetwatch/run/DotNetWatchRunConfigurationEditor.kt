@@ -1,5 +1,6 @@
 package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
+import com.intellij.execution.configurations.RuntimeConfigurationError
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtil
@@ -8,8 +9,10 @@ import com.jetbrains.rdclient.protocol.IPermittedModalities
 import com.jetbrains.rider.model.runnableProjectsModel
 import org.jetbrains.advocates.rider.plugins.dotnetwatch.DotNetWatchBundle
 import com.jetbrains.rider.projectView.solution
+import com.jetbrains.rider.run.RiderRunBundle
 import com.jetbrains.rider.run.configurations.LifetimedSettingsEditor
 import com.jetbrains.rider.run.configurations.controls.*
+import com.jetbrains.rider.run.configurations.runnableProjectsModelIfAvailable
 import java.util.*
 import javax.swing.JComponent
 
@@ -75,6 +78,11 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
     }
 
     override fun applyEditorTo(runConfiguration: DotNetWatchRunConfiguration) {
+        // Hold off when still loading solution...
+        if (project.runnableProjectsModelIfAvailable?.projects?.valueOrNull == null) {
+            RiderRunBundle.message("solution.is.loading.please.wait")
+        }
+
         val selectedProject = viewModel.projectSelector.project.valueOrNull
         val selectedTfm = viewModel.tfmSelector.string.valueOrNull
         if (selectedProject != null && selectedTfm != null) {
