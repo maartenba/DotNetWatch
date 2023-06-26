@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [2023.2.2]
+
+- Compatibility with Rider 2023.2 (EAP6+)
+
 ## [2023.2.1]
 
 - Automatically pick latest target framework on run if configured target framework is no longer available

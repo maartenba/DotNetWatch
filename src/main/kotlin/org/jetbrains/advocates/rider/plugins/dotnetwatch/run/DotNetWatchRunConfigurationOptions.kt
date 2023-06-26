@@ -4,7 +4,7 @@ package org.jetbrains.advocates.rider.plugins.dotnetwatch.run
 
 import com.intellij.execution.configurations.RunConfigurationOptions
 import com.intellij.openapi.project.Project
-import com.intellij.workspaceModel.ide.WorkspaceModel
+import com.intellij.platform.backend.workspace.WorkspaceModel
 import com.jetbrains.rider.projectView.workspace.getProjectModelEntities
 import com.jetbrains.rider.projectView.workspace.isUnloadedProject
 import java.nio.file.Path
