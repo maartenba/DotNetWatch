@@ -6,7 +6,7 @@
 
 ## [2023.2.2]
 
-- Compatibility with Rider 2023.2 (EAP6+)
+- Update dependencies
 
 ## [2023.2.1]
 
