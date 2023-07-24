@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [2023.2.3]
+
+- Update dependencies
+
 ## [2023.2.2]
 
 - Update dependencies
