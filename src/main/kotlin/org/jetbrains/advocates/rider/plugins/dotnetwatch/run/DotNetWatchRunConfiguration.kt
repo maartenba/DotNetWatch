@@ -63,23 +63,8 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                             it.projectFilePath == options.projectFilePath && type.isApplicable(it.kind)
                         } ?: return@let
 
-                        // When there is only one TFM for the project, and it is not the same as the one in the Run configuration,
-                        // emit `--framework` with the only option that is available
-                        if (runnableProject.projectOutputs.size == 1) {
-                            val runnableProjectOutput = runnableProject.projectOutputs.firstOrNull()
-                            val runnableProjectOutputTfm = runnableProjectOutput?.tfm?.presentableName
-
-                            if (runnableProjectOutputTfm != null &&
-                                runnableProjectOutputTfm != options.projectTfm) {
-
-                                options.projectTfm = runnableProjectOutputTfm
-                                commandLine.addParameters("--framework", options.projectTfm)
-                                return@let
-                            }
-                        }
-
                         // Use configured/available TFM
-                        if (runnableProject.projectOutputs.any { it.tfm?.presentableName == options.projectTfm }) {
+                        if (runnableProject.projectOutputs.size > 1 && runnableProject.projectOutputs.any { it.tfm?.presentableName == options.projectTfm }) {
                             commandLine.addParameters("--framework", options.projectTfm)
                         }
                     }
@@ -137,6 +122,7 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
             }
 
             override fun startProcess(): ProcessHandler {
+                @Suppress("DialogTitleCapitalization")
                 throw ExecutionException("startProcess() should not be called.")
             }
         }
