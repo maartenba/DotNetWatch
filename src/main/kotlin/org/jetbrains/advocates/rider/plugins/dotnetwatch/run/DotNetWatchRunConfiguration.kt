@@ -103,7 +103,7 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                     val processHandler = if (options.useExternalConsole)
                         ExternalConsoleMediator.createProcessHandler(commandLine)
                     else
-                        TerminalProcessHandler(commandLine)
+                        TerminalProcessHandler(project, commandLine)
 
                     ProcessTerminatedListener.attach(processHandler)
 

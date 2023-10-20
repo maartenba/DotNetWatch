@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+## 2023.3.2
+- Improved compatibility with Rider 2023.3
+
 ## 2023.3.1
 - Fix generating --framework flag when only one TFM is specified [#7](https://github.com/maartenba/DotNetWatch/issues/7)
 
