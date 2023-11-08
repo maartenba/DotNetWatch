@@ -228,13 +228,20 @@ class DotNetWatchRunConfigurationViewModel(
                     val projectOutput = runnableProject.projectOutputs.singleOrNull { it.tfm?.presentableName == selectedTfm }
                     val effectiveExePath = projectOutput?.exePath ?: exePath
                     val effectiveProgramParameters =
-                        if (projectOutput != null && projectOutput.defaultArguments.isNotEmpty())
-                            ParametersListUtil.join(projectOutput.defaultArguments).replace("\\\"", "\"")
-                        else if (programParameters.isNotEmpty())
+                        if (projectOutput != null && projectOutput.defaultArguments.isNotEmpty()) {
+                            // https://github.com/maartenba/DotNetWatch/issues/9
+                            val defaultArguments = if (projectOutput.defaultArguments.firstOrNull()?.equals("--applicationpath", ignoreCase = true) == true)
+                                projectOutput.defaultArguments.drop(2)
+                            else
+                                projectOutput.defaultArguments
+
+                            ParametersListUtil.join(defaultArguments).replace("\\\"", "\"")
+                        } else if (programParameters.isNotEmpty()) {
                             programParameters
-                        else
+                        } else {
                             // Handle the case when program parameters were set by changing TFM above and make sure it is not reset to empty.
                             programParametersEditor.defaultValue.value
+                        }
 
                     programParametersEditor.defaultValue.set(effectiveProgramParameters)
 
