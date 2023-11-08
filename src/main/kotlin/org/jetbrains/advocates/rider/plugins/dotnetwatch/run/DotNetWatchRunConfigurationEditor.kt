@@ -8,7 +8,7 @@ import com.jetbrains.rdclient.protocol.IPermittedModalities
 import com.jetbrains.rider.model.runnableProjectsModel
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.run.RiderRunBundle
-import com.jetbrains.rider.run.configurations.LifetimedSettingsEditor
+import com.jetbrains.rider.run.configurations.ProtocolLifetimedSettingsEditor
 import com.jetbrains.rider.run.configurations.controls.*
 import com.jetbrains.rider.run.configurations.runnableProjectsModelIfAvailable
 import org.jetbrains.advocates.rider.plugins.dotnetwatch.DotNetWatchBundle
@@ -16,7 +16,7 @@ import java.util.*
 import javax.swing.JComponent
 
 class DotNetWatchRunConfigurationEditor(private val project: Project)
-    : LifetimedSettingsEditor<DotNetWatchRunConfiguration>() {
+    : ProtocolLifetimedSettingsEditor<DotNetWatchRunConfiguration>() {
 
     private lateinit var viewModel: DotNetWatchRunConfigurationViewModel
 
