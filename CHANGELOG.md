@@ -6,6 +6,7 @@
 
 ## 2023.3.4
 - Improved compatibility with Rider 2023.3
+- Make dotnet-watch run configuration available while indexing
 
 ## 2023.3.3
 - Program Argument --applicationpath keeps getting added [#9](https://github.com/maartenba/DotNetWatch/issues/9)

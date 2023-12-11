@@ -11,6 +11,7 @@ import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.execution.runners.ProgramRunner
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.options.SettingsEditor
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.util.execution.ParametersListUtil
 import com.jetbrains.rider.debugger.showElevationDialogIfNeeded
@@ -24,7 +25,7 @@ import com.jetbrains.rider.util.idea.getService
 import java.io.File
 
 class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactory, name: String)
-    : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name), BuildAwareRunConfiguration {
+    : RunConfigurationBase<DotNetWatchRunConfigurationOptions>(project, factory, name), BuildAwareRunConfiguration, DumbAware {
 
     private val riderDotNetActiveRuntimeHost = project.getService<RiderDotNetActiveRuntimeHost>()
 
