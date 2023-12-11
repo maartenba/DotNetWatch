@@ -8,6 +8,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <configurationType implementation="org.jetbrains.advocates.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationType"/>
+        <errorHandler implementation="com.intellij.diagnostic.JetBrainsMarketplaceErrorReportSubmitter"/>
+
         <!-- REVIEW this one overrides the default context menu | Run ..., which is not ideal - disabled for now
         <runConfigurationProducer implementation="org.jetbrains.advocates.rider.plugins.dotnetwatch.run.DotNetWatchRunConfigurationProducer"/>-->
     </extensions>
