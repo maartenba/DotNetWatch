@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+## 2023.3.5
+- Add watch arguments field #10
+
 ## 2023.3.4
 - Improved compatibility with Rider 2023.3
 - Make dotnet-watch run configuration available while indexing

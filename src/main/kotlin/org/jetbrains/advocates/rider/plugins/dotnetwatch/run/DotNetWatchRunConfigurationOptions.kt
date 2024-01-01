@@ -21,6 +21,7 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     private var envsOption = map<String, String>().provideDelegate(this, "envs")
     private var isPassParentEnvsOption = property(true).provideDelegate(this, "isPassParentEnvs")
     private var useExternalConsoleOption = property(false).provideDelegate(this, "useExternalConsole")
+    private var watchParametersOption = string("").provideDelegate(this, "watchParameters")
     private var verbosityOption = string(DotNetWatchVerbosity.NORMAL.name).provideDelegate(this, "verbosity")
     private var isSuppressHotReloadOption = property(false).provideDelegate(this, "isSuppressHotReload")
     private var isRestartOnRudeEditEditorOption = property(false).provideDelegate(this, "isRestartOnRudeEditEditor")
@@ -67,6 +68,10 @@ class DotNetWatchRunConfigurationOptions : RunConfigurationOptions() {
     var useExternalConsole: Boolean
         get() = useExternalConsoleOption.getValue(this)
         set(value) = useExternalConsoleOption.setValue(this, value)
+
+    var watchParameters: String
+        get() = watchParametersOption.getValue(this) ?: ""
+        set(value) = watchParametersOption.setValue(this, value)
 
     var verbosity: DotNetWatchVerbosity
         get() = DotNetWatchVerbosity.valueOf(verbosityOption.getValue(this) ?: DotNetWatchVerbosity.NORMAL.name)

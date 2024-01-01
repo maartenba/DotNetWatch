@@ -34,6 +34,7 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
             EnvironmentVariablesEditor(DotNetWatchBundle.message("run.configuration.environmentVariables.label"), "Environment_variables"),
             FlagEditor(DotNetWatchBundle.message("run.configuration.useExternalConsole.label"), "Use_external_console"),
             ViewSeparator(DotNetWatchBundle.message("run.configuration.separator.additional.label")),
+            ProgramParametersEditor(DotNetWatchBundle.message("run.configuration.watchParameters.label"), "Watch_arguments", lifetime),
             EnumSelector<DotNetWatchVerbosity>(DotNetWatchBundle.message("run.configuration.verbosity.label"), "Dotnet_watch_verbosity", EnumSet.allOf(DotNetWatchVerbosity::class.java)) {
                 when (it) {
                     DotNetWatchVerbosity.NORMAL -> DotNetWatchBundle.message("run.configuration.verbosity.normal")
@@ -66,6 +67,7 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 isPassParentEnvs,
                 useExternalConsole,
                 isUnloadedProject(project),
+                watchParameters,
                 verbosity,
                 isSuppressHotReload,
                 isRestartOnRudeEditEditor,
@@ -96,6 +98,7 @@ class DotNetWatchRunConfigurationEditor(private val project: Project)
                 envs = viewModel.environmentVariablesEditor.envs.value
                 isPassParentEnvs = viewModel.environmentVariablesEditor.isPassParentEnvs.value
                 useExternalConsole = viewModel.useExternalConsoleEditor.isSelected.value
+                watchParameters = viewModel.watchParametersEditor.parametersString.value
                 verbosity = viewModel.verbosityEditor.rawValue.valueOrNull ?: DotNetWatchVerbosity.NORMAL
                 isSuppressHotReload = viewModel.isSuppressHotReloadEditor.isSelected.value
                 isRestartOnRudeEditEditor = viewModel.isRestartOnRudeEditEditor.isSelected.value

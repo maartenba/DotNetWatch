@@ -76,6 +76,11 @@ class DotNetWatchRunConfiguration(project: Project, factory: ConfigurationFactor
                         commandLine.addParameter("--no-hot-reload")
                     }
 
+                    if (options.watchParameters.isNotEmpty()) {
+                        commandLine.parametersList.addAll(
+                            ParametersListUtil.parse(options.watchParameters))
+                    }
+
                     if (options.programParameters.isNotEmpty()) {
                         commandLine.addParameter("--")
                         commandLine.parametersList.addAll(

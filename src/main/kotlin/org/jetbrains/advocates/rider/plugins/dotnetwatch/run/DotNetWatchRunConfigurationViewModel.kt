@@ -24,6 +24,7 @@ class DotNetWatchRunConfigurationViewModel(
     environmentVariablesEditor: EnvironmentVariablesEditor,
     useExternalConsoleEditor: FlagEditor,
     dotnetWatchAdditionalOptionsSeparator: ViewSeparator,
+    val watchParametersEditor: ProgramParametersEditor,
     val verbosityEditor: EnumSelector<DotNetWatchVerbosity>,
     val isSuppressHotReloadEditor: FlagEditor,
     val isRestartOnRudeEditEditor: FlagEditor,
@@ -62,6 +63,7 @@ class DotNetWatchRunConfigurationViewModel(
         isSuppressBrowserLaunchEditor,
         isSuppressBrowserRefreshEditor,
         dotnetWatchAdditionalOptionsSeparator,
+        watchParametersEditor,
         verbosityEditor,
         isSuppressHotReloadEditor,
         isRestartOnRudeEditEditor,
@@ -144,6 +146,7 @@ class DotNetWatchRunConfigurationViewModel(
               passParentEnvs: Boolean,
               useExternalConsole: Boolean,
               isUnloadedProject: Boolean,
+              watchParameters: String,
               verbosity: DotNetWatchVerbosity,
               isSuppressHotReload: Boolean,
               isRestartOnRudeEdit: Boolean,
@@ -169,6 +172,7 @@ class DotNetWatchRunConfigurationViewModel(
         this.trackProjectExePath = trackProjectExePath
         this.trackProjectWorkingDirectory = trackProjectWorkingDirectory
 
+        watchParametersEditor.parametersString.set(watchParameters)
         verbosityEditor.rawValue.set(verbosity)
         isSuppressHotReloadEditor.isSelected.set(isSuppressHotReload)
         isRestartOnRudeEditEditor.isSelected.set(isRestartOnRudeEdit)
