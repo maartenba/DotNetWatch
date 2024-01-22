@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+## 2024.1.0
+- Compatibility with Rider 2024.1
+
 ## 2023.3.5
 - Add watch arguments field #10
 
