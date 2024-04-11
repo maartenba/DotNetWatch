@@ -15,7 +15,7 @@ import java.io.File
 
 class DotNetWatchRunConfigurationViewModel(
     private val lifetime: Lifetime,
-    private val project: Project,
+    project: Project,
     private val runnableProjectsModel: RunnableProjectsModel,
     val projectSelector: ProjectSelector,
     val tfmSelector: StringSelector,
@@ -198,7 +198,7 @@ class DotNetWatchRunConfigurationViewModel(
                         fakeProjectName, fakeProjectName, projectFilePath, RunnableProjectKinds.Unloaded,
                         listOf(
                             ProjectOutput(
-                                RdTargetFrameworkId("", projectTfm, false, false), exePath,
+                                RdTargetFrameworkId(RdVersionInfo(0, 0, 0), "", projectTfm, false, false), exePath,
                                 ParametersListUtil.parse(programParameters), workingDirectory, "", null, emptyList()
                             )
                         ),
