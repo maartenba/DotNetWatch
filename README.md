@@ -14,7 +14,7 @@ Features include:
 - Environment Variables editor
 - Use External Console flag
 - Verbosity (`--quiet`, `--verbose`, or default)
-- Suppress Hot Reload (only .NET 6)
+- Suppress Hot Reload (only .NET 6+)
 - Before Launch options
 
 <!-- Plugin description end -->
