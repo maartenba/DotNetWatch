@@ -9,17 +9,32 @@ plugins {
     // Kotlin support
     id("org.jetbrains.kotlin.jvm") version "1.8.21"
     // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.15.0"
+    id("org.jetbrains.intellij.platform") version "2.0.0-beta3"
     // Gradle Changelog Plugin
     id("org.jetbrains.changelog") version "2.0.0"
 }
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
+val platformType = properties("platformType")
+val platformVersion = properties("platformVersion")
 
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
+}
+
+dependencies {
+    intellijPlatform {
+        create(platformType, platformVersion)
+
+        pluginVerifier()
+        zipSigner()
+        instrumentationTools()
+    }
 }
 
 // Set the JVM language level used to compile sources and generate files
@@ -30,15 +45,44 @@ kotlin {
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-intellij {
-    pluginName.set(properties("pluginName"))
-    version.set(properties("platformVersion"))
-    type.set(properties("platformType"))
-    downloadSources.set(properties("platformDownloadSources").toBoolean())
-    updateSinceUntilBuild.set(true)
+intellijPlatform {
+    pluginConfiguration {
+        name = properties("pluginName")
+        version = properties("pluginVersion")
 
-    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
+        ideaVersion {
+            // TODO migration is this needed?
+            //  sinceBuild.set(properties("pluginSinceBuild"))
+            //  untilBuild.set(properties("pluginUntilBuild"))
+        }
+
+        // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
+        description.set(
+            projectDir.resolve("README.md").readText().lines().run {
+                val start = "<!-- Plugin description -->"
+                val end = "<!-- Plugin description end -->"
+
+                if (!containsAll(listOf(start, end))) {
+                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                }
+                subList(indexOf(start) + 1, indexOf(end))
+            }.joinToString("\n").run { markdownToHTML(this) }
+        )
+
+        // Get the latest available change notes from the changelog file
+        changeNotes.set(provider {
+            changelog.run {
+                getOrNull(properties("pluginVersion")) ?: getLatest()
+            }.toHTML()
+        })
+    }
+
+    // Plugin verifier
+    verifyPlugin {
+        ides {
+            recommended()
+        }
+    }
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
@@ -61,45 +105,6 @@ tasks {
 
     wrapper {
         gradleVersion = properties("gradleVersion")
-    }
-
-    patchPluginXml {
-        version.set(properties("pluginVersion"))
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
-
-        // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
-        pluginDescription.set(
-            projectDir.resolve("README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
-
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) }
-        )
-
-        // Get the latest available change notes from the changelog file
-        changeNotes.set(provider {
-            changelog.run {
-                getOrNull(properties("pluginVersion")) ?: getLatest()
-            }.toHTML()
-        })
-    }
-
-    runPluginVerifier {
-        ideVersions.set(properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty))
-    }
-
-    // Configure UI tests plugin
-    // Read more: https://github.com/JetBrains/intellij-ui-test-robot
-    runIdeForUiTests {
-        systemProperty("robot-server.port", "8082")
-        systemProperty("ide.mac.message.dialogs.as.sheets", "false")
-        systemProperty("jb.privacy.policy.text", "<!--999.999-->")
-        systemProperty("jb.consents.confirmation.enabled", "false")
     }
 
     signPlugin {
